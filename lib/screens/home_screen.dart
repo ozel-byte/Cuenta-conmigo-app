@@ -1,5 +1,6 @@
 import 'package:cicla/screens/sections/add_bathroom.dart';
 import 'package:cicla/screens/sections/appoinment_medical_section.dart';
+import 'package:cicla/screens/sections/dashboard.dart';
 import 'package:cicla/screens/sections/personal_data_section.dart';
 import 'package:cicla/screens/sections/recomendations_section.dart';
 import 'package:cicla/screens/sections/remember_water.dart';
@@ -15,12 +16,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> screens = [
+    const DashBoard(),
     const PersonalDataSection(),
     const AddBathRoomSection(),
     const RememberWaterSection(),
     const AppoinmentMedicalSection(),
     const VacunasSection(),
-    const RecommendSection()
+    const RecommendSection(),
   ];
 
   int index = 0;
@@ -28,37 +30,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffolKey,
       appBar: AppBar(
         title: Text(
-          index == 0
-              ? 'Datos personales'
-              : index == 1
-                  ? 'Registro Baño'
-                  : index == 2
-                      ? 'Recordatorio Agua'
-                      : index == 3
-                          ? 'Citas Medicas'
-                          : index == 4
-                              ? 'Vacunas'
-                              : index == 5
-                                  ? 'Recomendaciones'
-                                  : '',
+          "Cuenta conmigo",
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary),
         ),
-        actions: const [
-          Text("1:55"),
-          SizedBox(width: 20,)
-        ],
+       
       ),
       body: screens[index],
-
-      floatingActionButton: FloatingActionButton(onPressed: (){},child: const Icon(Icons.play_arrow),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.play_arrow),
+      ),
       drawer: NavigationDrawer(
         selectedIndex: index,
         onDestinationSelected: (value) {
@@ -147,6 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             height: 15,
           ),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.home), label: Text("Home")),
           const NavigationDrawerDestination(
               icon: Icon(Icons.person), label: Text("Datos personales")),
           const NavigationDrawerDestination(

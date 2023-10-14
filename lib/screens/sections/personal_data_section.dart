@@ -13,7 +13,7 @@ class PersonalDataSection extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Wrap(
-              runSpacing: 10,
+              runSpacing: 20,
               alignment: WrapAlignment.center,
               children: [
                 const CircleAvatar(
@@ -26,12 +26,23 @@ class PersonalDataSection extends StatelessWidget {
                   child: Wrap(
                     runSpacing: 10,
                     children: [
-                      const Text("Nombre:"),
+                      Text(
+                        "Nombre:",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold),
+                      ),
                       TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            hintText: "Ingrese su nombre",
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent)),
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             filled: true),
                       )
                     ],
@@ -42,12 +53,20 @@ class PersonalDataSection extends StatelessWidget {
                   child: Wrap(
                     runSpacing: 10,
                     children: [
-                      const Text("Apellido Paterno:"),
+                      Text("Apellido Paterno:",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold)),
                       TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent)),
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             filled: true),
                       )
                     ],
@@ -58,12 +77,20 @@ class PersonalDataSection extends StatelessWidget {
                   child: Wrap(
                     runSpacing: 10,
                     children: [
-                      const Text("Apellido Materno:"),
+                      Text("Apellido Materno:",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold)),
                       TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent)),
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             filled: true),
                       )
                     ],
@@ -74,12 +101,60 @@ class PersonalDataSection extends StatelessWidget {
                   child: Wrap(
                     runSpacing: 10,
                     children: [
-                      const Text("Fecha de nacimiento:"),
+                      Text("Fecha de nacimiento:",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold)),
                       TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent)),
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
+                            filled: true),
+                      )
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                   
+                    Container(
+                      width: (size.width / 2) - 10,
+                      height: 20,
+                      color: Colors.green,
+                    ),
+                     Container(
+                     width: (size.width / 2) - 10,
+                      height: 20,
+                      color: Colors.yellow,
+                    )
+                  ],
+                ),
+               
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Wrap(
+                    runSpacing: 10,
+                    children: [
+                      Text("Talla:",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold)),
+                      TextFormField(
+                        decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             filled: true),
                       )
                     ],
@@ -90,66 +165,30 @@ class PersonalDataSection extends StatelessWidget {
                   child: Wrap(
                     runSpacing: 10,
                     children: [
-                      const Text("Sexo:"),
+                      Text("Enfermedad cronica:",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold)),
                       TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent)),
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
                             filled: true),
                       )
                     ],
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Wrap(
-                    runSpacing: 10,
-                    children: [
-                      const Text("Peso:"),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent)),
-                            filled: true),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Wrap(
-                    runSpacing: 10,
-                    children: [
-                      const Text("Talla:"),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent)),
-                            filled: true),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Wrap(
-                    runSpacing: 10,
-                    children: [
-                      const Text("Enfermedad cronica:"),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent)),
-                            filled: true),
-                      )
-                    ],
-                  ),
-                ),
-                ElevatedButton(onPressed: () {}, child: const Text("Guardar"))
+                  width: size.width,
+                  child: FilledButton.tonal(
+                      onPressed: () {}, child: const Text("Actualizar")),
+                )
               ],
             ),
           ),
