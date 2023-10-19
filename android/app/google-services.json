@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "833729975354",
+    "project_id": "cicla-5c962",
+    "storage_bucket": "cicla-5c962.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833729975354:android:a4e14a5660f968dac29103",
+        "android_client_info": {
+          "package_name": "com.ozelwedler.cicla"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnwF7O-BlLtD8L7ntpxHmDq4JGeztpacc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

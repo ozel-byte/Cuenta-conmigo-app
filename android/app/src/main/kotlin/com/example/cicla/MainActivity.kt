@@ -1,4 +1,4 @@
-package com.example.cicla
+package com.ozelwedler.cicla
 
 import io.flutter.embedding.android.FlutterActivity
 
