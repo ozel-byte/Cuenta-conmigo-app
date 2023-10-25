@@ -2,7 +2,6 @@ import 'package:cicla/providers/valid_session.dart';
 import 'package:cicla/screens/home_screen.dart';
 import 'package:cicla/screens/sign_in_screen.dart';
 import 'package:cicla/screens/sign_up_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRoute {
