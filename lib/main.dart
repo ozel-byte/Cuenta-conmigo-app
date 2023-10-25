@@ -1,26 +1,33 @@
+import 'package:cicla/providers/valid_session.dart';
 import 'package:cicla/route.dart';
 import 'package:cicla/theme/theme_light.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-  
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final ValidSession validSession = ValidSession();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Cuenta conmigo',
-      initialRoute: AppRoute.initialRoute,
-      routes: AppRoute.routes,
-      theme: ThemeLight.themeOne
-    );
+    return MultiProvider(
+        providers: [Provider(create: (_) => ValidSession())],
+        child: ChangeNotifierProvider.value(
+          value: validSession,
+          child: MaterialApp.router(
+              routerConfig: AppRoute(validSession: validSession).router,
+              debugShowCheckedModeBanner: false,
+              title: 'Cuenta conmigo',
+              theme: ThemeLight.themeOne),
+        ));
   }
 }

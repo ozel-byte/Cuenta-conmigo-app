@@ -6,12 +6,13 @@ class DashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Home"),
-          FlutterLogo(size: 100,)
+          Image(
+            height: 200,
+            image: AssetImage("assets/logo.jpeg"))
         ],
       ),
     );

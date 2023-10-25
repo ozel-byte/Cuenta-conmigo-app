@@ -1,3 +1,5 @@
+import 'package:cicla/entities/user.dart';
+import 'package:cicla/infrastructure/firebase_user_infra.dart';
 import 'package:cicla/screens/sections/add_bathroom.dart';
 import 'package:cicla/screens/sections/appoinment_medical_section.dart';
 import 'package:cicla/screens/sections/dashboard.dart';
@@ -5,7 +7,9 @@ import 'package:cicla/screens/sections/personal_data_section.dart';
 import 'package:cicla/screens/sections/recomendations_section.dart';
 import 'package:cicla/screens/sections/remember_water.dart';
 import 'package:cicla/screens/sections/vacunas_section.dart';
+import 'package:cicla/uses_cases/get_user.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,13 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary),
         ),
-       
+        actions: [
+          IconButton.filledTonal(
+              onPressed: () {
+                _showMyDialog();
+              },
+              icon: const Icon(Icons.exit_to_app_outlined))
+        ],
       ),
       body: screens[index],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.play_arrow),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: const Icon(Icons.play_arrow),
+      // ),
       drawer: NavigationDrawer(
         selectedIndex: index,
         onDestinationSelected: (value) {
@@ -73,64 +83,83 @@ class _HomeScreenState extends State<HomeScreen> {
           _scaffolKey.currentState!.openEndDrawer();
         },
         children: [
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 10,
-                children: [
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://images.pexels.com/photos/15919897/pexels-photo-15919897/free-photo-of-mujer-sentado-chaqueta-tejanos.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"),
-                    radius: 40,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Martha",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                      Text(
-                        "23/12/2021",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary),
-                      )
-                    ],
-                  )
-                ],
-              )),
-          Wrap(
-            alignment: WrapAlignment.spaceAround,
-            children: [
-              Text(
-                "Femenino",
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "2 años",
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "86 cm",
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "12.5 kg",
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontWeight: FontWeight.bold),
-              )
-            ],
+          FutureBuilder(
+            future: GetUser(repository: FirebaseUserInfra()).get(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 10,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(snapshot.data!.img!),
+                              radius: 40,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data!.name!,
+                                  style: TextStyle(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  snapshot.data!.date!,
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
+                                )
+                              ],
+                            )
+                          ],
+                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          snapshot.data!.sexo! == Sexo.masculino
+                              ? "Masculino"
+                              : "Femenino",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          snapshot.data!.tall!,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          snapshot.data!.weight!,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          snapshot.data!.enfermedad!,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ],
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
           ),
           const SizedBox(
             height: 15,
@@ -154,5 +183,49 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('¿Estas seguro de cerrar sessión?'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Esto eliminara el inicio de sessión que se guardo.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Si'),
+              onPressed: () {
+                deleteSession();
+              },
+            ),
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteSession() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.remove("session");
+      if (mounted) {
+        Navigator.popAndPushNamed(context, "login");
+      }
+    } catch (e) {
+    }
   }
 }

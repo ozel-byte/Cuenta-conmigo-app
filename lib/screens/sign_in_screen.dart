@@ -1,19 +1,27 @@
 import 'package:cicla/entities/user.dart';
 import 'package:cicla/infrastructure/firebase_user_infra.dart';
+import 'package:cicla/providers/valid_session.dart';
 import 'package:cicla/uses_cases/getall_user.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignInScreen> createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class _SignInState extends State<SignInScreen> {
+  final TextEditingController _emailController = TextEditingController(text: "cicla@gmail.com");
+  final TextEditingController _passwordController = TextEditingController(text: "cicla123");
   bool loading = false;
+  bool saveSesion = false;
+  bool loadingValidSession = true;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,27 +40,27 @@ class _SignInState extends State<SignIn> {
             spacing: 20,
             children: [
               const Image(height: 200, image: AssetImage("assets/logo.jpeg")),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                width: size.width,
-                child: TextFormField(
-                  controller: _emailController,
-                  decoration:
-                      const InputDecoration(hintText: "Correo del usuario"),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                width: size.width,
-                child: TextFormField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(hintText: "Contraseña"),
-                ),
-              ),
+              InpuEmail(size: size, emailController: _emailController),
+              InputPassword(
+                  size: size, passwordController: _passwordController),
+              SizedBox(
+                  width: size.width,
+                  child: SwitchListTile(
+                    value: saveSesion,
+                    onChanged: (value) {
+                      setState(() {
+                        saveSesion = value;
+                      });
+                    },
+                    title: const Text("Guardar sesión"),
+                  )),
               Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   width: size.width,
                   child: FilledButton.tonal(
+                      style: const ButtonStyle(
+                          fixedSize:
+                              MaterialStatePropertyAll(Size.fromHeight(50))),
                       onPressed: () async {
                         setState(() {
                           loading = true;
@@ -66,16 +74,10 @@ class _SignInState extends State<SignIn> {
                         setState(() {
                           loading = false;
                         });
-                        if (mounted && !isValidaUser) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text("Contraseña o correo incorrecto")));
-                          return;
+                        if (saveSesion) {
+                          ValidSession().switchInitialRoute("home");
                         }
-                        if (mounted) {
-                          Navigator.popAndPushNamed(context, "home");
-                        }
+                        goHome(isValidaUser);
                       },
                       child: loading
                           ? const SizedBox(
@@ -90,10 +92,71 @@ class _SignInState extends State<SignIn> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   width: size.width,
                   child: OutlinedButton(
-                      onPressed: () {}, child: const Text("Registrarse"))),
+                      style: const ButtonStyle(
+                          fixedSize:
+                              MaterialStatePropertyAll(Size.fromHeight(50))),
+                      onPressed: () {
+                        Navigator.pushNamed(context, "sign-up");
+                      },
+                      child: const Text("Registrarse"))),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void goHome(bool isValidaUser) {
+    if (isValidaUser) {
+      context.go("/home");
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Contraseña o Correo incorrecto")));
+    }
+  }
+}
+
+class InputPassword extends StatelessWidget {
+  const InputPassword({
+    super.key,
+    required this.size,
+    required TextEditingController passwordController,
+  }) : _passwordController = passwordController;
+
+  final Size size;
+  final TextEditingController _passwordController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      width: size.width,
+      child: TextFormField(
+        controller: _passwordController,
+        decoration: const InputDecoration(hintText: "Contraseña"),
+      ),
+    );
+  }
+}
+
+class InpuEmail extends StatelessWidget {
+  const InpuEmail({
+    super.key,
+    required this.size,
+    required TextEditingController emailController,
+  }) : _emailController = emailController;
+
+  final Size size;
+  final TextEditingController _emailController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      width: size.width,
+      child: TextFormField(
+        controller: _emailController,
+        decoration: const InputDecoration(hintText: "Correo del usuario"),
       ),
     );
   }
