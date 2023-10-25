@@ -9,7 +9,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(
+    MultiProvider(providers: [
+      Provider(create: (_) => ValidSession()),
+    ], child: MyApp()
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,15 +23,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [Provider(create: (_) => ValidSession())],
-        child: ChangeNotifierProvider.value(
-          value: validSession,
-          child: MaterialApp.router(
+    return  MaterialApp.router(
               routerConfig: AppRoute(validSession: validSession).router,
               debugShowCheckedModeBanner: false,
               title: 'Cuenta conmigo',
-              theme: ThemeLight.themeOne),
-        ));
+              theme: ThemeLight.themeOne,
+    );
   }
 }

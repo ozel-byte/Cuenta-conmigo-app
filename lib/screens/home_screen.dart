@@ -9,6 +9,7 @@ import 'package:cicla/screens/sections/remember_water.dart';
 import 'package:cicla/screens/sections/vacunas_section.dart';
 import 'package:cicla/uses_cases/get_user.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -223,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.remove("session");
       if (mounted) {
-        Navigator.popAndPushNamed(context, "login");
+        context.go("/");
       }
     } catch (e) {
     }

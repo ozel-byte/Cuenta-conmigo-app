@@ -1,6 +1,7 @@
 import 'package:cicla/entities/user.dart';
 import 'package:cicla/entities/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseUserInfra implements UserRepository {
@@ -48,7 +49,9 @@ class FirebaseUserInfra implements UserRepository {
         .collection("User")
         .doc(prefs.getString("id"))
         .get();
-    print(user.data());
+    if (kDebugMode) {
+      print(user.data());
+    }
     return User.fromJsonAll({
       "email": user.get("email"),
       "password": user.get("password"),
@@ -84,8 +87,10 @@ class FirebaseUserInfra implements UserRepository {
       });
       return true;
     } catch (e) {
-      print("error");
-      print(e);
+      if (kDebugMode) {
+        print("error");
+        print(e);
+      }
       return false;
     }
   }
